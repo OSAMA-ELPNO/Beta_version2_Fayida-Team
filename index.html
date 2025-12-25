@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fayida Team - Student Portal</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Site Favicon Configuration -->
+  <link rel="icon" type="image/png" href="icon_online-course.png">
+  <link rel="apple-touch-icon" href="icon_online-course.png">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600&family=Fredoka+One&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- Firebase SDKs (Compat Version) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+</head>
+
+<body class="spa-body">
+  <!-- Interactive Loader Screen -->
+  <div id="site-loader">
+    <div class="loader-content">
+      <img src="fayida_logo.png" alt="Loading..." class="loader-logo">
+      <div class="loader-pulse"></div>
+    </div>
+    <div class="loader-text fredoka">Fayida Hub</div>
+  </div>
+
+  <header class="main-header">
+    <div class="header-content">
+      <div class="logo-area" onclick="navigateHome()">
+        <!-- Official Site Logo -->
+        <img src="fayida_logo.png" alt="Fayida Team Logo" class="site-logo">
+        <div class="logo-text">
+          <h1 id="t-platform-name" class="fredoka">Fayida Team</h1>
+          <p id="t-tagline">Academic Hub</p>
+        </div>
+      </div>
+      <div class="header-controls">
+        <div class="search-area">
+          <i class="fas fa-search"></i>
+          <input type="text" id="site-search" placeholder="Search courses, levels..."
+            oninput="handleSearch(this.value)">
+          <div id="search-results" class="search-dropdown"></div>
+        </div>
+        <button id="lang-toggle" class="icon-btn">EN / AR</button>
+        <button id="theme-toggle" class="icon-btn">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app-container" class="app-main">
+    <!-- Breadcrumb Navigation -->
+    <nav id="learning-path" class="breadcrumb-nav"></nav>
+
+    <!-- Views will be injected here dynamically -->
+    <section id="view-majors" class="view-container active">
+      <div class="view-header">
+        <h2 id="t-select-major" class="fredoka">Select Your Specialization</h2>
+        <p id="t-major-desc">Choose a major to explore available courses</p>
+      </div>
+      <div id="majors-grid" class="grid-layout">
+        <!-- Major cards will be injected here -->
+      </div>
+    </section>
+
+    <section id="view-courses" class="view-container">
+      <div class="navigation-bar">
+        <button class="back-btn" onclick="navigateHome()">← <span id="t-back">Back</span></button>
+        <h2 id="current-major-title" class="fredoka">Major Placeholder</h2>
+      </div>
+      <div id="courses-grid" class="grid-layout">
+        <!-- Course cards will be injected here -->
+      </div>
+    </section>
+
+    <section id="view-content" class="view-container">
+      <div class="navigation-bar">
+        <button class="back-btn" onclick="navigateToCourses()">← <span id="t-back-courses">Back to
+            Subjects</span></button>
+        <div class="content-header-info">
+          <h2 id="current-course-title" class="fredoka">Course Placeholder</h2>
+          <span id="current-course-code" class="badge">Active Hub</span>
+        </div>
+      </div>
+
+      <div class="content-layout">
+        <aside class="timeline-sidebar">
+          <ul id="weeks-list" class="timeline-nav">
+            <!-- Weeks navigation -->
+          </ul>
+        </aside>
+        <div id="week-details" class="content-display">
+          <!-- Specific week content displayed here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-info" class="contact-section">
+      <div class="contact-container">
+        <h2 id="t-contact-title" class="fredoka">Connect With Us</h2>
+        <div class="contact-cards">
+          <a href="https://wa.me/yournumber" class="contact-card whatsapp">
+            <i class="fab fa-whatsapp social-float"></i>
+            <h4 id="t-whatsapp" class="fredoka">WhatsApp</h4>
+            <p>Direct Support</p>
+          </a>
+          <a href="https://t.me/yourusername" class="contact-card telegram">
+            <i class="fab fa-telegram-plane social-float" style="animation-delay: 0.5s;"></i>
+            <h4 id="t-telegram" class="fredoka">Telegram</h4>
+            <p>Join Community</p>
+          </a>
+          <a href="mailto:osamaelpano@gmail.com" class="contact-card email">
+            <i class="fas fa-envelope social-float" style="animation-delay: 1s;"></i>
+            <h4 id="t-email" class="fredoka">Email Us</h4>
+            <p>osamaelpano@gmail.com</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>© 2025 Fayida Team - All rights reserved</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

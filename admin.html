@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin - Private Control Panel</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Site Favicon Configuration -->
+    <link rel="icon" type="image/png" href="icon_online-course.png">
+    <link rel="apple-touch-icon" href="icon_online-course.png">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;400;600&family=Fredoka+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Firebase SDKs (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+</head>
+
+<body class="admin-body">
+    <!-- Interactive Loader Screen -->
+    <div id="site-loader">
+        <div class="loader-content">
+            <img src="fayida_logo.png" alt="Loading..." class="loader-logo">
+            <div class="loader-pulse"></div>
+        </div>
+        <div class="loader-text fredoka">Fayida Hub</div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-content">
+            <a href="index.html" class="logo-area" style="text-decoration: none; color: inherit;">
+                <!-- Official Site Logo -->
+                <img src="fayida_logo.png" alt="Fayida Team Logo" class="site-logo">
+                <div class="logo-text">
+                    <h1 class="fredoka">Super Admin</h1>
+                    <p>Private Management Hub</p>
+                </div>
+            </a>
+            <div class="header-controls">
+                <button id="lang-toggle" class="icon-btn">EN / AR</button>
+                <button id="theme-toggle" class="icon-btn">🌓</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="app-main admin-dashboard">
+        <div class="admin-header">
+            <h2 class="fredoka">Subject Management</h2>
+            <button class="icon-btn" onclick="openOverlay('add-subject-overlay')"
+                style="background:var(--primary-teal); border-radius: 12px; padding: 12px 24px;">+ Add New
+                Subject</button>
+        </div>
+
+        <div id="admin-subjects-grid" class="admin-grid">
+            <!-- Subjects will be rendered here -->
+        </div>
+    </main>
+
+    <!-- Overlay: Add Subject -->
+    <div id="add-subject-overlay" class="overlay">
+        <div class="form-card">
+            <h3 class="fredoka">Add New Subject</h3>
+            <p style="opacity:0.7; margin-bottom:20px;">Subjects will immediately be visible on the student portal once
+                saved.</p>
+
+            <div class="form-group">
+                <label>Subject Name</label>
+                <input type="text" id="new-subject-name" placeholder="e.g. Programming Fundamentals">
+            </div>
+
+            <div class="form-group">
+                <label>Specialization</label>
+                <select id="new-subject-major">
+                    <option value="cs">Computer Science</option>
+                    <option value="business">Business Administration</option>
+                    <option value="health">Health Sciences</option>
+                    <option value="english">English Literature</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Total Weeks (1-9)</label>
+                <input type="number" id="new-subject-weeks" value="9" min="1" max="9">
+            </div>
+
+            <div class="actions-row">
+                <button class="icon-btn" onclick="addSubject()" style="background:var(--primary-teal); flex:1;">Save &
+                    Create</button>
+                <button class="icon-btn" onclick="closeOverlay('add-subject-overlay')" style="flex:1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay: Week Editor -->
+    <div id="week-editor-overlay" class="overlay">
+        <div class="form-card" style="max-width: 900px; width: 95%;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
+                <div>
+                    <h3 id="editor-subject-name" class="fredoka">Subject Name</h3>
+                    <p style="opacity:0.7;">Weekly Content Controller</p>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button class="icon-btn" onclick="saveWeekFromForm(); closeOverlay('week-editor-overlay');"
+                        style="background:var(--primary-purple);">Save & Close</button>
+                    <button class="danger-btn" onclick="closeOverlay('week-editor-overlay')">Discard Changes</button>
+                </div>
+            </div>
+
+            <div id="week-tabs-row" class="week-tab-row">
+                <!-- Week tabs rendered here -->
+            </div>
+
+            <div class="editor-body admin-sectioned-layout" style="max-height: 60vh; overflow-y: auto;">
+                <section class="admin-form-section">
+                    <h4 class="section-title fredoka"><i class="fas fa-clock"></i> Schedule & Info</h4>
+                    <div class="form-group">
+                        <label>Week Title</label>
+                        <input type="text" id="edit-week-title" placeholder="Introduction to...">
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div class="form-group">
+                            <label>Opening Date & Time</label>
+                            <input type="datetime-local" id="edit-week-date">
+                        </div>
+                        <div class="form-group">
+                            <label>Closing Date & Time</label>
+                            <input type="datetime-local" id="edit-week-expiry">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-form-section">
+                    <h4 class="section-title fredoka"><i class="fas fa-video"></i> Video Lectures</h4>
+                    <div id="video-inputs-container">
+                        <!-- Dynamic video inputs -->
+                    </div>
+                </section>
+
+                <section class="admin-form-section">
+                    <h4 class="section-title fredoka"><i class="fas fa-file-pdf"></i> PDF Resources</h4>
+                    <div id="pdf-inputs-list">
+                        <!-- Dynamic PDF inputs -->
+                    </div>
+                </section>
+
+                <section class="admin-form-section">
+                    <h4 class="section-title fredoka"><i class="fas fa-edit"></i> Notes & Discussion</h4>
+                    <div class="form-group">
+                        <label>Notes (HTML allowed)</label>
+                        <textarea id="edit-week-notes" rows="6" placeholder="Instructions, links, etc."></textarea>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
